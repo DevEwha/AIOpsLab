@@ -15,7 +15,7 @@ LLM/
 
 ## 🚀 프로젝트 개요
 
-이 프로젝트는 Hugging Face의 `distilgpt2` 모델을 KServe를 통해 서버리스 방식으로 배포하고, 로컬에서 port-forward를 사용해 테스트하는 예제입니다.
+이 프로젝트는 Hugging Face의 `distilgpt2` 모델을 KServe를 통해 서버리스 방식으로 배포하고, 로컬에서 port-forward를 사용해 테스트하는 실험입니다.
 
 ## 🔧 사전 준비
 
@@ -23,7 +23,6 @@ LLM/
 2. **KServe** 설치 및 설정 완료
 3. **kubectl** 명령어 사용 가능
 4. 로컬에 **Python 3.8+** 설치
-5. (선택) Docker 및 컨테이너 레지스트리 접근 권한
 
 ## ⚙️ 설치 및 실행
 
