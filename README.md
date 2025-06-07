@@ -35,7 +35,7 @@
 * **kserve\_experiment/**: KServe 기반 실험 환경 및 결과 재현 코드
 * **other\_experiment/**: 추후 확장 가능한 다양한 서버리스 플랫폼 실험 디렉토리
 
-## 🛠️ 실험 워크플로우 예시 (kserve\_experiment)
+## 🛠️ 실험 워크플로우 baseline (kserve\_experiment)
 
 1. Docker 이미지 빌드 & 레지스트리 푸시
 2. KServe InferenceService 배포 (`inference.yaml` 적용)
