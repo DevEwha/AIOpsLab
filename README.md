@@ -3,6 +3,7 @@
 ## 📂 전체 디렉토리 구조
 
 ```plaintext
+🗂️
 ├── Project.MD               # 연구 개요, 배경, 평가 지표, 일정 등 전반적 계획서
 ├── GroundRule.MD            # 팀 협업 규칙, PR 승인 절차, 커밋 메시지 가이드
 ├── kserve_experiment/       # KServe 기반 실험 환경
@@ -12,8 +13,12 @@
 │   ├── send_request.py      # 첫 요청 및 연속 요청 지연 시간 측정 스크립트
 │   ├── requirements.txt     # Python 의존성 목록
 │   └── Project.md           # 해당 실험 폴더 전용 가이드
-├── other_experiment/        # 추가 실험용 디렉토리 (예: Ray Serve, Lambda 백엔드 등)
-│   └── README.md            # 각 실험별 가이드
+├── model_shard_deploy_time/ # CPU 환경 분할 로딩을 통한 콜드 스타트 완화 실험
+│   ├── distilgpt2_model/    # 분할 전 모델 및 config, tokenizer, 분할 후 모델
+│   ├── load_model.py        # 모델 다운로드 및 state_dict 저장 스크립트
+│   ├── divide_model.py      # CPU 기반 모델 weight 분할 스크립트
+│   ├── main.py              # 전체 vs. 파셜 로드 시간 측정 스크립트
+│   └── Dockerfile           # Multi-stage 컨테이너 이미지 정의
 └── README.md                # 이 파일: 연구 전체 안내서
 ```
 
@@ -33,7 +38,16 @@
 * **Project.MD**: 연구 동기, 문헌 리뷰, 실험 설계, 평가 지표, 일정 계획 등 전반 문서
 * **GroundRule.MD**: 팀별 협업 규칙과 PR/CI 워크플로우, 코드 스타일 가이드
 * **kserve\_experiment/**: KServe 기반 실험 환경 및 결과 재현 코드
-* **other\_experiment/**: 추후 확장 가능한 다양한 서버리스 플랫폼 실험 디렉토리
+* **model\_shard_deploy\_time/**: CPU 환경 분할 로딩을 통한 콜드 스타트 완화 실험
+
+## 🛠️ 실험1) CPU 환경 분할 로딩을 통한 콜드 스타트 완화 실험(model\_shard_deploy\_time)
+- GPU 사용이 어려운 환경에서도 모델을 여러 샤드(shard)로 분할 저장·로딩하여 초기 로드 시간을 단축하는 방식을 제안합니다.
+- 기대 효과 및 결론
+  - CPU 환경에서도 모델 로딩 초기화 시간(cold start)을 유의미하게 단축
+  - GPU 환경에서는 디바이스 초기화, I/O 병목 완화 효과가 더 크게 나타날 것으로 기대
+  - 모델 크기 증가 시 샤딩 효과(+초기화 단축 비율)가 더욱 증폭
+  - 결과적으로 “모델을 여러 인스턴스에 나눠 저장·로드하는 협업 추론 구조”는 서버리스·컨테이너 확장 시 빠른 스케일 아웃을 지원
+- 자세한 내용 및 실행 방법은 [pr #2](https://github.com/DevEwha/AIOpsLab/pull/2) 참고
 
 ## 🛠️ 실험2) kserve baseline (kserve\_experiment)
 
@@ -49,6 +63,7 @@
 
 * KServe Documentation: [https://kserve.github.io/](https://kserve.github.io/)
 * FastAPI Documentation: [https://fastapi.tiangolo.com/](https://fastapi.tiangolo.com/)
+* MegatronLM HuggingFace: [https://huggingface.co/.../megatron_lm](https://huggingface.co/docs/accelerate/usage_guides/megatron_lm)
 
 ---
 
