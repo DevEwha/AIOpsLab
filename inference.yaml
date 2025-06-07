@@ -1,0 +1,22 @@
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: llm-server
+  namespace: kserve
+spec:
+  predictor:
+    containers:
+    - name: llm-container # 이전 가이드에서 kserve-container로 변경 제안했는데, 여기선 llm-container가 나을 듯 합니다.
+      image: leejuwon/llm-server:latest # ✅ 변경된 이미지 경로
+      ports:
+      - containerPort: 8080
+      imagePullPolicy: Always # 외부에서 당겨오므로 Always가 적절
+      resources:
+        requests:
+          cpu: 500m
+          memory: 512Mi
+        limits:
+          cpu: 1
+          memory: 1Gi
+    imagePullSecrets: # ✅ 이 부분 추가!
+    - name: regcred # kubectl create secret docker-registry 명령으로 생성한 시크릿 이름
