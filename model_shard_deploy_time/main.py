@@ -18,7 +18,7 @@ def load_full():
     state_dict = torch.load(state_path, map_location="cpu")
     model.load_state_dict(state_dict, strict=False)
     elapsed = time.time() - start
-    print(f"🕒 Partial model load time: {elapsed:.4f} seconds")
+    print(f"🕒 Full model load time: {elapsed:.4f} seconds")
     return model
 
 def load_partial():
