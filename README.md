@@ -5,13 +5,12 @@
 ## 📂 폴더 구조
 
 ```plaintext
-llm-kserve-experiment/
+LLM/
 ├── app.py                 # FastAPI 애플리케이션 엔트리포인트
 ├── inference.yaml         # KServe InferenceService 설정 파일
 ├── send_request.py        # 클라이언트 테스트용 스크립트
 ├── requirements.txt       # Python 의존성 목록
-├── Dockerfile             # 컨테이너 이미지 빌드를 위한 도커파일
-└── README.md              # 프로젝트 설명서
+└── Dockerfile             # 컨테이너 이미지 빌드를 위한 도커파일
 ```
 
 ## 🚀 프로젝트 개요
