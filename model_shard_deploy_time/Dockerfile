@@ -21,12 +21,8 @@ ENTRYPOINT ["python", "main.py"]
 
 FROM base AS full
 
-# 기본 모드: full
-RUN rm distilgpt2_model/pytorch_model_part1.bin \
-       distilgpt2_model/pytorch_model_part2.bin \
-       distilgpt2_model/pytorch_model_part3.bin \
-       distilgpt2_model/pytorch_model_part4.bin \
-       distilgpt2_model/pytorch_model_part5.bin
+# part shard 파일 모두 제거
+RUN rm -f distilgpt2_model/pytorch_model_part*.bin
 
 CMD ["--mode", "full"]
 
@@ -36,11 +32,10 @@ CMD ["--mode", "full"]
 
 FROM base AS part1
 
-# 필요 없는 shard 삭제, part1만 pytorch_model.bin으로 이름 변경
-RUN rm distilgpt2_model/pytorch_model.bin \
-       distilgpt2_model/pytorch_model_part2.bin \
-       distilgpt2_model/pytorch_model_part3.bin \
-       distilgpt2_model/pytorch_model_part4.bin \
-       distilgpt2_model/pytorch_model_part5.bin
+# 원본 모델 파일과 다른 shards 제거, part1 shard는 그대로 유지
+RUN rm -f distilgpt2_model/pytorch_model.bin && \
+    for f in distilgpt2_model/pytorch_model_part*.bin; do \
+      [ "$f" != "distilgpt2_model/pytorch_model_part1.bin" ] && rm -f "$f"; \
+    done
 
 CMD ["--mode", "partial"]
